@@ -14,7 +14,7 @@ export default async (req) => {
 
   const IMAGE_URL = "https://nopicforu/hi";
 
-  // Mock Video Feed for Video & General Search Tabs
+  // Mock Video Feed
   const mockVideos = [1, 2, 3, 4].map((num) => ({
     aweme_id: `900${num}`,
     desc: `Iphone Tole Tole Phonk 😂😂👑🫱🫱🫱 #wiedlak #bloxyzwiedlakkasefar #wiedlakfamily #meme`,
@@ -46,7 +46,7 @@ export default async (req) => {
     }
   }));
 
-  // Mock User List for Users Search Tab
+  // Mock User List
   const mockUsers = [
     {
       user_info: {
@@ -79,7 +79,7 @@ export default async (req) => {
     }
   ];
 
-  // Mock Music List for Sounds Tab
+  // Mock Music List (Sounds)
   const mockSounds = [
     {
       music_info: {
@@ -115,7 +115,7 @@ export default async (req) => {
     }
   ];
 
-  // Mock Challenge List for Hashtags Tab
+  // Mock Challenge List (Hashtags)
   const mockHashtags = [
     {
       challenge_info: {
@@ -146,10 +146,12 @@ export default async (req) => {
   const payload = {
     status_code: 0,
     status_msg: "",
-    aweme_list: mockVideos,     // Videos / General Tab
-    user_list: mockUsers,       // Users Tab
-    music_list: mockSounds,     // Sounds Tab
-    challenge_list: mockHashtags, // Hashtags Tab
+    aweme_list: mockVideos,
+    user_list: mockUsers,
+    music_list: mockSounds,
+    music: mockSounds,             // Some client versions look for 'music' array
+    challenge_list: mockHashtags,
+    category_list: mockHashtags,  // Some client versions look for 'category_list' array
     has_more: 0,
     cursor: 0
   };
@@ -164,6 +166,10 @@ export const config = {
     "/aweme/v1/search/item/*",
     "/aweme/v1/search/item",
     "/aweme/v1/general/search/*",
-    "/aweme/v1/general/search"
+    "/aweme/v1/general/search",
+    "/aweme/v1/search/music/*",
+    "/aweme/v1/search/music",
+    "/aweme/v1/search/challenge/*",
+    "/aweme/v1/search/challenge"
   ]
 };
