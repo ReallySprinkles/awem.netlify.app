@@ -12,12 +12,12 @@ export default async (req) => {
     return new Response(null, { status: 200, headers });
   }
 
-  const IMAGE_URL = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png";
+  const IMAGE_URL = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_3840.png";
 
   // Mock Video Feed for Video & General Search Tabs
   const mockVideos = [1, 2, 3, 4].map((num) => ({
     aweme_id: `900${num}`,
-    desc: `Trending Video #${num} 🚀`,
+    desc: `Iphone Tole Tole Phonk 😂😂👑🫱🫱🫱 #wiedlak #bloxyzwiedlakkasefar #wiedlakfamily #meme`,
     create_time: Math.floor(Date.now() / 1000),
     author: {
       uid: `100${num}`,
@@ -28,7 +28,7 @@ export default async (req) => {
     },
     video: {
       play_addr: {
-        url_list: ["https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/video.mp4"]
+        url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
       },
       cover: {
         url_list: [IMAGE_URL]
