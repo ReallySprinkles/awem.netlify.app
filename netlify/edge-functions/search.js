@@ -21,7 +21,7 @@ export default async (req) => {
     create_time: Math.floor(Date.now() / 1000),
     author: {
       uid: `100${num}`,
-      nickname: `Creator ${num}`,
+      nickname: `bloxyz wiedlak kasefar`,
       avatar_thumb: {
         url_list: [IMAGE_URL]
       }
