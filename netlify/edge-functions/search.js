@@ -12,7 +12,7 @@ export default async (req) => {
     return new Response(null, { status: 200, headers });
   }
 
-  const IMAGE_URL = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_3840.png";
+  const IMAGE_URL = "https://nopicforu/hi";
 
   // Mock Video Feed for Video & General Search Tabs
   const mockVideos = [1, 2, 3, 4].map((num) => ({
