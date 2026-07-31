@@ -1,0 +1,36 @@
+/aweme/v1/comment/*          /.netlify/functions/comments     200
+/aweme/v2/comment/*          /.netlify/functions/comments     200
+/aweme/v1/comment/list/*        /aweme/v1/comment/list/index.html    200
+/aweme/v2/comment/list/*        /aweme/v2/comment/list/index.html    200
+
+
+/aweme/v1/user/*          /aweme/v1/user   200
+
+/aweme/v1/music/categories/music_list/*        /aweme/v1/music/categories/music_list/index.html      200
+/aweme/v1/music/list/*         /aweme/v1/music/list/index.html      200
+
+/aweme/v1/user/follower/list/*        /aweme/v1/user/follower/list/index.html      200
+/aweme/v1/user/following/list/*         /aweme/v1/user/following/list/index.html       200
+
+/aweme/v1/challenge/aweme/*          /aweme/v1/challenge/aweme/index.html      200
+
+/aweme/v1/commit/item/digg/*          /aweme/v1/commit/item/digg/index.html     200
+
+/aweme/v1/aweme/collected/challenge/*         /aweme/v1/aweme/collected/challenge/index.html     200
+/aweme/v1/aweme/collected/music/*        /aweme/v1/aweme/collected/music/index.html     200
+/aweme/v1/aweme/favorite/*          /aweme/v1/aweme/favorite/index.html     200
+
+/aweme/v1/aweme/post/*        /aweme/v1/aweme/post/index.html      200
+
+/aweme/v1/music/detail/*        /aweme/v1/music/detail/index.html     200
+/aweme/v1/music/collect/*        /aweme/v1/music/collect/index.html    200
+
+/aweme/v1/category/list/*    /aweme/v1/category/list/index.html    200
+/aweme/v1/discover/banner/*  /aweme/v1/discover/banner/index.html  200
+/aweme/v1/search/item/*       /aweme/v1/search/item/index.html       200
+/aweme/v1/search/*            /aweme/v1/search/item/index.html       200
+/aweme/v1/challenge/detail/*         /aweme/v1/challenge/detail/index.html       200
+
+/aweme/*                      /aweme/v1/feed/index.html             200
+
+/*                            /.netlify/functions/login             200!

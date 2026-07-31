@@ -1,0 +1,15 @@
+{
+  "message": "success",
+  "data": {
+    "user_id": "12345",
+    "screen_name": "sprinkles",
+    "unique_id": "sprinkles.dude",
+    "session_key": "mock_session_token_12345",
+    "is_login": 1,
+    "avatar_thumb": {
+      "url_list": [
+        "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png"
+      ]
+    }
+  }
+}

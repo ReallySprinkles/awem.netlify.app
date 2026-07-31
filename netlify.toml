@@ -1,0 +1,10 @@
+# Map all musical.ly 7.x sound picker endpoints under /aweme/ to aweme.js
+[[redirects]]
+  from = "/aweme/v1/music/*"
+  to = "/.netlify/functions/aweme"
+  status = 200
+
+[[redirects]]
+  from = "/aweme/v1/original/music/*"
+  to = "/.netlify/functions/aweme"
+  status = 200
