@@ -46,7 +46,7 @@ export default async (req) => {
     }
   }));
 
-  // Your Custom User List
+  // Mock User List for Users Search Tab
   const mockUsers = [
     {
       user_info: {
@@ -79,11 +79,77 @@ export default async (req) => {
     }
   ];
 
+  // Mock Music List for Sounds Tab
+  const mockSounds = [
+    {
+      music_info: {
+        id: 7001,
+        id_str: "7001",
+        title: "Tole Tole Phonk",
+        author: "wiedlak",
+        duration: 30,
+        play_url: {
+          url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
+        },
+        cover_thumb: {
+          url_list: [IMAGE_URL]
+        },
+        user_count: 1337
+      }
+    },
+    {
+      music_info: {
+        id: 7002,
+        id_str: "7002",
+        title: "Original Sound",
+        author: "sprinkles",
+        duration: 15,
+        play_url: {
+          url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
+        },
+        cover_thumb: {
+          url_list: [IMAGE_URL]
+        },
+        user_count: 420
+      }
+    }
+  ];
+
+  // Mock Challenge List for Hashtags Tab
+  const mockHashtags = [
+    {
+      challenge_info: {
+        cid: "1001",
+        cha_name: "wiedlak",
+        user_count: 1337,
+        desc: "wiedlak challenge"
+      }
+    },
+    {
+      challenge_info: {
+        cid: "1002",
+        cha_name: "bloxyzwiedlakkasefar",
+        user_count: 2500,
+        desc: "bloxyz wiedlak kasefar trend"
+      }
+    },
+    {
+      challenge_info: {
+        cid: "1003",
+        cha_name: "meme",
+        user_count: 9999,
+        desc: "funny memes"
+      }
+    }
+  ];
+
   const payload = {
     status_code: 0,
     status_msg: "",
-    aweme_list: mockVideos, // Adds videos to Videos/General tabs
-    user_list: mockUsers,   // Keeps users on Users tab
+    aweme_list: mockVideos,     // Videos / General Tab
+    user_list: mockUsers,       // Users Tab
+    music_list: mockSounds,     // Sounds Tab
+    challenge_list: mockHashtags, // Hashtags Tab
     has_more: 0,
     cursor: 0
   };
