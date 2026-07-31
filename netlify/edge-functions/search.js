@@ -14,7 +14,7 @@ export default async (req) => {
 
   const IMAGE_URL = "https://nopicforu/hi";
 
-  // Mock Video Feed
+  // Mock Video Feed for Video & General Search Tabs
   const mockVideos = [1, 2, 3, 4].map((num) => ({
     aweme_id: `900${num}`,
     desc: `Iphone Tole Tole Phonk 😂😂👑🫱🫱🫱 #wiedlak #bloxyzwiedlakkasefar #wiedlakfamily #meme`,
@@ -46,7 +46,7 @@ export default async (req) => {
     }
   }));
 
-  // Mock User List
+  // Mock User List for Users Search Tab
   const mockUsers = [
     {
       user_info: {
@@ -79,79 +79,81 @@ export default async (req) => {
     }
   ];
 
-  // Mock Music List (Sounds)
-  const mockSounds = [
+  // Mock Music Items
+  const rawMusic = [
     {
-      music_info: {
-        id: 7001,
-        id_str: "7001",
-        title: "Tole Tole Phonk",
-        author: "wiedlak",
-        duration: 30,
-        play_url: {
-          url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
-        },
-        cover_thumb: {
-          url_list: [IMAGE_URL]
-        },
-        user_count: 1337
-      }
+      id: 7001,
+      id_str: "7001",
+      title: "Tole Tole Phonk",
+      author: "wiedlak",
+      duration: 30,
+      play_url: {
+        url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
+      },
+      cover_thumb: {
+        url_list: [IMAGE_URL]
+      },
+      user_count: 1337
     },
     {
-      music_info: {
-        id: 7002,
-        id_str: "7002",
-        title: "Original Sound",
-        author: "sprinkles",
-        duration: 15,
-        play_url: {
-          url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
-        },
-        cover_thumb: {
-          url_list: [IMAGE_URL]
-        },
-        user_count: 420
-      }
+      id: 7002,
+      id_str: "7002",
+      title: "Original Sound",
+      author: "sprinkles",
+      duration: 15,
+      play_url: {
+        url_list: ["https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9llee7og65sc7h9l1hg.mp4"]
+      },
+      cover_thumb: {
+        url_list: [IMAGE_URL]
+      },
+      user_count: 420
     }
   ];
 
-  // Mock Challenge List (Hashtags)
-  const mockHashtags = [
+  // Dual format for Sounds tab (some clients expect music_info wrapper, others expect bare music object)
+  const mockMusicList = rawMusic.map(m => ({ music_info: m, music: m, ...m }));
+
+  // Mock Challenge/Hashtag Items
+  const rawChallenges = [
     {
-      challenge_info: {
-        cid: "1001",
-        cha_name: "wiedlak",
-        user_count: 1337,
-        desc: "wiedlak challenge"
-      }
+      cid: "1001",
+      cha_name: "wiedlak",
+      user_count: 1337,
+      desc: "wiedlak challenge"
     },
     {
-      challenge_info: {
-        cid: "1002",
-        cha_name: "bloxyzwiedlakkasefar",
-        user_count: 2500,
-        desc: "bloxyz wiedlak kasefar trend"
-      }
+      cid: "1002",
+      cha_name: "bloxyzwiedlakkasefar",
+      user_count: 2500,
+      desc: "bloxyz wiedlak kasefar trend"
     },
     {
-      challenge_info: {
-        cid: "1003",
-        cha_name: "meme",
-        user_count: 9999,
-        desc: "funny memes"
-      }
+      cid: "1003",
+      cha_name: "meme",
+      user_count: 9999,
+      desc: "funny memes"
     }
   ];
+
+  // Dual format for Hashtags tab
+  const mockChallengeList = rawChallenges.map(c => ({ challenge_info: c, challenge: c, ...c }));
 
   const payload = {
     status_code: 0,
     status_msg: "",
     aweme_list: mockVideos,
     user_list: mockUsers,
-    music_list: mockSounds,
-    music: mockSounds,             // Some client versions look for 'music' array
-    challenge_list: mockHashtags,
-    category_list: mockHashtags,  // Some client versions look for 'category_list' array
+    
+    // Sounds tab keys (handles all client variations)
+    music_list: mockMusicList,
+    music: mockMusicList,
+    
+    // Hashtags tab keys (handles all client variations)
+    challenge_list: mockChallengeList,
+    challenge: mockChallengeList,
+    category_list: mockChallengeList,
+
     has_more: 0,
     cursor: 0
   };
@@ -169,7 +171,11 @@ export const config = {
     "/aweme/v1/general/search",
     "/aweme/v1/search/music/*",
     "/aweme/v1/search/music",
+    "/aweme/v1/music/search/*",
+    "/aweme/v1/music/search",
     "/aweme/v1/search/challenge/*",
-    "/aweme/v1/search/challenge"
+    "/aweme/v1/search/challenge",
+    "/aweme/v1/challenge/search/*",
+    "/aweme/v1/challenge/search"
   ]
 };
