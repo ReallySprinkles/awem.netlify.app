@@ -27,53 +27,61 @@ export default async (req) => {
 
   const nowSeconds = Math.floor(Date.now() / 1000);
 
-  // --- DEVICE LIST PAYLOAD ---
+  const deviceArray = [
+    {
+      device_id: "901823019283019",
+      device_name: "iPhone 17 Pro Max",
+      device_model: "iPhone18,2",
+      last_active_time: nowSeconds,
+      is_current_device: 1,
+      location: "Cairo, Egypt"
+    },
+    {
+      device_id: "718930129381029",
+      device_name: "iPhone 16 Pro",
+      device_model: "iPhone17,1",
+      last_active_time: nowSeconds - 3600,
+      is_current_device: 0,
+      location: "Cairo, Egypt"
+    },
+    {
+      device_id: "612938475102938",
+      device_name: "iPhone 13",
+      device_model: "iPhone14,5",
+      last_active_time: nowSeconds - 86400 * 3,
+      is_current_device: 0,
+      location: "Cairo, Egypt"
+    },
+    {
+      device_id: "501928374610293",
+      device_name: "Samsung Galaxy A23",
+      device_model: "SM-A235F",
+      last_active_time: nowSeconds - 86400 * 7,
+      is_current_device: 0,
+      location: "Cairo, Egypt"
+    },
+    {
+      device_id: "829301823901823",
+      device_name: "PlayStation 5",
+      device_model: "PS5",
+      last_active_time: nowSeconds - 86400 * 14,
+      is_current_device: 0,
+      location: "Cairo, Egypt"
+    }
+  ];
+
+  // --- COMPATIBILITY PAYLOAD ---
+  // Covers multiple JSON key conventions (devices, device_list, active_devices)
   const devicePayload = {
     status_code: 0,
+    message: "success",
     data: {
-      devices: [
-        {
-          device_id: "901823019283019",
-          device_name: "iPhone 17 Pro Max",
-          device_model: "iPhone18,2",
-          last_active_time: nowSeconds,
-          is_current_device: 1,
-          location: "Cairo, Egypt"
-        },
-        {
-          device_id: "718930129381029",
-          device_name: "iPhone 16 Pro",
-          device_model: "iPhone17,1",
-          last_active_time: nowSeconds - 3600, // 1 hour ago
-          is_current_device: 0,
-          location: "Cairo, Egypt"
-        },
-        {
-          device_id: "612938475102938",
-          device_name: "iPhone 13",
-          device_model: "iPhone14,5",
-          last_active_time: nowSeconds - 86400 * 3, // 3 days ago
-          is_current_device: 0,
-          location: "Cairo, Egypt"
-        },
-        {
-          device_id: "501928374610293",
-          device_name: "Samsung Galaxy A23",
-          device_model: "SM-A235F",
-          last_active_time: nowSeconds - 86400 * 7, // 7 days ago
-          is_current_device: 0,
-          location: "Cairo, Egypt"
-        },
-        {
-          device_id: "829301823901823",
-          device_name: "PlayStation 5",
-          device_model: "PS5",
-          last_active_time: nowSeconds - 86400 * 14, // 14 days ago
-          is_current_device: 0,
-          location: "Cairo, Egypt"
-        }
-      ]
-    }
+      devices: deviceArray,
+      device_list: deviceArray,
+      active_devices: deviceArray
+    },
+    devices: deviceArray,
+    device_list: deviceArray
   };
 
   return new Response(JSON.stringify(devicePayload), {
@@ -87,7 +95,11 @@ export const config = {
     "/passport/app/device/*",
     "/passport/app/device",
     "/passport/device/*",
-    "/passport/device/one_key_login/*",
-    "/passport/user/login_device/*"
+    "/passport/user/login_device/*",
+    "/passport/auth/device/*",
+    "/passport/account/device/*",
+    "/passport/app/device_list/*",
+    "/passport/app/device_list",
+    "/passport/device/device_list/*"
   ]
 };
