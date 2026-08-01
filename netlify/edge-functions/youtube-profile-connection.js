@@ -106,7 +106,7 @@ export default async (req) => {
       allow_others_to_find_me: 1,
 
       // --- DEMOGRAPHICS & PROFILE PILLS ---
-      gender: 1, // 1 = Male
+      gender: 2, // 1 = Male
       birthday: "2010-04-07", // Douyin parses this for Age & Zodiac (Aries)
       birthday_hide_level: 0,
       show_gender_strategy: 0,
