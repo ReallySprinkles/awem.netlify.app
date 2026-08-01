@@ -1,5 +1,3 @@
-How do i also fix the zodiac sign
-Do it to this
 // netlify/edge-functions/profile-master.js
 
 export default async (req) => {
