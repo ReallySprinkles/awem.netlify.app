@@ -15,7 +15,7 @@ export default async (req) => {
   const url = new URL(req.url);
   const pathname = url.pathname;
 
-  // Pass through non-music / non-banner requests
+  // Strict check: only intercept music/banner/collection paths
   const isMusicPath = 
     pathname.includes("/music/") || 
     pathname.includes("/chart/music/") || 
@@ -23,7 +23,7 @@ export default async (req) => {
     pathname.includes("/collection/");
 
   if (!isMusicPath) {
-    return; // Preserve FYP / User feed routes
+    return; // Pass through to keep FYP and profile endpoints working
   }
 
   const sampleCover = {
@@ -35,8 +35,8 @@ export default async (req) => {
     height: 720
   };
 
-  // Base Sound Objects
-  const track1Data = {
+  // Base Sound Objects with full field schemas
+  const rawTrack1 = {
     id: 700000000000001,
     id_str: "700000000000001",
     mid: "700000000000001",
@@ -58,10 +58,11 @@ export default async (req) => {
     duration: 60,
     user_count: 1250,
     status: 1,
-    is_original: true
+    is_original: true,
+    collect_stat: 0
   };
 
-  const track2Data = {
+  const rawTrack2 = {
     id: 700000000000002,
     id_str: "700000000000002",
     mid: "700000000000002",
@@ -83,38 +84,52 @@ export default async (req) => {
     duration: 30,
     user_count: 8900,
     status: 1,
-    is_original: false
+    is_original: false,
+    collect_stat: 0
   };
 
-  // Legacy pickers render track rows via `music_info` wrapper
+  // Formatted elements containing both flat and nested properties
   const formattedTrackList = [
     {
       type: 1,
-      music_info: track1Data,
-      music: track1Data,
-      ...track1Data
+      music_info: rawTrack1,
+      music: rawTrack1,
+      ...rawTrack1
     },
     {
       type: 1,
-      music_info: track2Data,
-      music: track2Data,
-      ...track2Data
+      music_info: rawTrack2,
+      music: rawTrack2,
+      ...rawTrack2
     }
   ];
 
-  // Category Banner items (populates the 2 top boxes)
-  const categoryBanners = [
+  // Categories payload for Hot Song tab
+  const categories = [
     {
       category_name: "Hot Song",
       category_id: "hot_song",
-      cover: sampleCover,
       music_list: formattedTrackList,
-      aweme_list: []
+      aweme_list: [],
+      cover: sampleCover
     },
     {
       category_name: "My Favorites",
       category_id: "favorites",
-      cover: sampleCover,
+      music_list: [],
+      aweme_list: [],
+      cover: sampleCover
+    }
+  ];
+
+  const mcList = [
+    {
+      mc_info: { mc_id: "1001", mc_name: "Hot Song" },
+      music_list: formattedTrackList,
+      aweme_list: []
+    },
+    {
+      mc_info: { mc_id: "1002", mc_name: "My Favorites" },
       music_list: [],
       aweme_list: []
     }
@@ -125,25 +140,15 @@ export default async (req) => {
     status_msg: "",
     has_more: 0,
     cursor: 0,
-    // Direct track feeds
+    // Root level lists
     music_list: formattedTrackList,
     music: formattedTrackList,
     data: formattedTrackList,
-    // Category & banner structures
-    category_list: categoryBanners,
-    music_category_list: categoryBanners,
-    mc_list: [
-      {
-        mc_info: { mc_id: "1001", mc_name: "Hot Song" },
-        music_list: formattedTrackList,
-        aweme_list: []
-      },
-      {
-        mc_info: { mc_id: "1002", mc_name: "My Favorites" },
-        music_list: [],
-        aweme_list: []
-      }
-    ],
+    // Categories and Collections
+    category_list: categories,
+    music_category_list: categories,
+    mc_list: mcList,
+    music_collection_list: mcList,
     extra: {
       now: Math.floor(Date.now() / 1000),
       fatal_item_ids: []
