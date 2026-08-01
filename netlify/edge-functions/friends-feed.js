@@ -12,11 +12,10 @@ export default async (req) => {
     return new Response(null, { status: 200, headers });
   }
 
-  // Douyin Follow Status:
-  // 1 = Following
-  // 2 = Mutual / Friends (朋友)
-  // 0 = Not following
+  const url = new URL(req.url);
+  const pathname = url.pathname;
 
+  // 1. Full 41-follower array with sec_uid and follow_status
   const followerList = [
     {
       uid: "7000000001",
@@ -430,14 +429,14 @@ export default async (req) => {
     }
   ];
 
-  // Douyin Aweme / Video item structure
-  const mockVideo = {
+  // Douyin Specific Friends/Familiar Video Object
+  const friendVideo = {
     aweme_id: "7100000000000000001",
     item_id: "7100000000000000001",
     aweme_type: 0,
-    desc: "Douyin familiar feed test 🚀",
+    desc: "Douyin Friends Feed Test Video 🚀",
     create_time: Math.floor(Date.now() / 1000),
-    author: followerList[16],
+    author: followerList[16], // ღ• (5huukyo)
     author_user_id: followerList[16].uid,
     video: {
       play_addr: {
@@ -457,33 +456,70 @@ export default async (req) => {
     rate: 1
   };
 
-  const responseData = {
-    status_code: 0,
-    status_msg: "",
-    has_more: 1,
-    cursor: Date.now(),
-    min_cursor: Date.now() - 86400,
-    max_cursor: Date.now(),
-    total: 4525,
-    followers: followerList,
-    followings: followerList,
-    friends: followerList,
-    user_list: followerList,
-    aweme_list: [mockVideo],
-    data: [mockVideo],
-    item_list: [mockVideo]
-  };
+  // ROUTE 1: Follower / Following / Friend Lists (Profile tab)
+  if (pathname.includes("/user/follower") || pathname.includes("/user/following") || pathname.includes("/friend/list")) {
+    return new Response(
+      JSON.stringify({
+        status_code: 0,
+        status_msg: "",
+        has_more: 1,
+        total: 4525,
+        followers: followerList,
+        followings: followerList,
+        friends: followerList,
+        user_list: followerList
+      }),
+      { status: 200, headers }
+    );
+  }
 
-  return new Response(JSON.stringify(responseData), {
-    status: 200,
-    headers
-  });
+  // ROUTE 2: Friends Feed (Douyin specific pathways: familiar, friend/feed, tab/feed)
+  const isFriendsFeed = 
+    pathname.includes("/familiar/") || 
+    pathname.includes("/friend/") || 
+    url.searchParams.get("channel_id") === "2" || 
+    url.searchParams.get("type") === "13";
+
+  if (isFriendsFeed) {
+    return new Response(
+      JSON.stringify({
+        status_code: 0,
+        status_msg: "",
+        has_more: 1,
+        cursor: Date.now(),
+        min_cursor: Date.now() - 86400,
+        max_cursor: Date.now(),
+        aweme_list: [friendVideo],
+        data: [friendVideo],
+        item_list: [friendVideo]
+      }),
+      { status: 200, headers }
+    );
+  }
+
+  // ROUTE 3: Pass through regular main feed requests (or return empty feed) so main feed isn't overridden
+  return new Response(
+    JSON.stringify({
+      status_code: 0,
+      status_msg: "",
+      has_more: 0,
+      aweme_list: []
+    }),
+    { status: 200, headers }
+  );
 };
 
 export const config = {
   path: [
-    "/aweme/v1/*",
-    "/aweme/v2/*",
-    "/aweme/v3/*"
+    "/aweme/v1/user/follower/*",
+    "/aweme/v1/user/following/*",
+    "/aweme/v2/user/follower/*",
+    "/aweme/v2/user/following/*",
+    "/aweme/v1/friend/*",
+    "/aweme/v2/friend/*",
+    "/aweme/v1/familiar/*",
+    "/aweme/v2/familiar/*",
+    "/aweme/v1/tab/feed/*",
+    "/aweme/v2/tab/feed/*"
   ]
 };
