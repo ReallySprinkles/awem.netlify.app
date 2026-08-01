@@ -105,9 +105,11 @@ export default async (req) => {
       is_private: 0,
       allow_others_to_find_me: 1,
 
-      // --- DEMOGRAPHICS & PROFILE PILLS ---
-      gender: 2, // 2 = Male in legacy Douyin/Musical.ly schema
-      gender_name: "Male",
+      // --- DOUYIN NATIVE GENDER FIELDS ---
+      gender: 1, 
+      gender_str: "男",               // Chinese string for Male
+      gender_name: "男",
+
       birthday: "2010-04-07",
       birthday_hide_level: 0,
       show_gender_strategy: 0,
@@ -118,11 +120,25 @@ export default async (req) => {
       ip_location: "Egypt",
       hide_location: 0,
 
-      // --- ZODIAC / ASTROLOGY FIELDS ---
-      astrology_zodiac: 1,          // 1 = Aries
-      zodiac_sign: 1,
-      constellation: "Aries",
-      zodiac: "Aries",
+      // --- DOUYIN NATIVE ASTROLOGY / CONSTELLATION FIELDS ---
+      astrology_zodiac: 1,             // 1 = Aries
+      zodiac_type: 1,
+      constellation: "白羊座",          // Aries in Chinese
+      zodiac: "白羊座",
+      zodiac_name: "白羊座",
+      star_sign: "白羊座",
+      
+      constellation_info: {
+        id: 1,
+        name: "白羊座",
+        english_name: "Aries"
+      },
+      
+      zodiac_info: {
+        zodiac_id: 1,
+        zodiac_name: "白羊座",
+        name: "白羊座"
+      },
 
       // --- PHONE & ACCOUNT BINDING FLAGS ---
       telephone: "+15550192831",
