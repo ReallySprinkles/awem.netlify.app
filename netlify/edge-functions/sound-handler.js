@@ -15,7 +15,7 @@ export default async (req) => {
   const url = new URL(req.url);
   const pathname = url.pathname;
 
-  // Strict check: only respond to music, collection, or banner routes
+  // Pass through non-music / non-banner requests
   const isMusicPath = 
     pathname.includes("/music/") || 
     pathname.includes("/chart/music/") || 
@@ -23,10 +23,9 @@ export default async (req) => {
     pathname.includes("/collection/");
 
   if (!isMusicPath) {
-    return; // Pass through so FYP / user profiles are NOT affected
+    return; // Preserve FYP / User feed routes
   }
 
-  // Cover image schema with full metadata required by legacy image loaders
   const sampleCover = {
     uri: "finn_pfp",
     url_list: [
@@ -36,8 +35,8 @@ export default async (req) => {
     height: 720
   };
 
-  // Sound Track 1
-  const rawTrack1 = {
+  // Base Sound Objects
+  const track1Data = {
     id: 700000000000001,
     id_str: "700000000000001",
     mid: "700000000000001",
@@ -59,12 +58,10 @@ export default async (req) => {
     duration: 60,
     user_count: 1250,
     status: 1,
-    is_original: true,
-    owner_handle: "sprinkles"
+    is_original: true
   };
 
-  // Sound Track 2
-  const rawTrack2 = {
+  const track2Data = {
     id: 700000000000002,
     id_str: "700000000000002",
     mid: "700000000000002",
@@ -86,76 +83,40 @@ export default async (req) => {
     duration: 30,
     user_count: 8900,
     status: 1,
-    is_original: false,
-    owner_handle: "Douyin Audio"
+    is_original: false
   };
 
-  // Formatted items containing flat attributes AND nested `music` / `music_info` wrappers
-  const formattedTracks = [
+  // Legacy pickers render track rows via `music_info` wrapper
+  const formattedTrackList = [
     {
       type: 1,
-      music: rawTrack1,
-      music_info: rawTrack1,
-      ...rawTrack1
+      music_info: track1Data,
+      music: track1Data,
+      ...track1Data
     },
     {
       type: 1,
-      music: rawTrack2,
-      music_info: rawTrack2,
-      ...rawTrack2
+      music_info: track2Data,
+      music: track2Data,
+      ...track2Data
     }
   ];
 
-  // Banners for the top carousel (replaces the blank grey squares)
-  const bannerList = [
-    {
-      bid: "banner_1",
-      title: "Hot Sounds",
-      banner_url: sampleCover,
-      width: 720,
-      height: 360,
-      type: 1
-    },
-    {
-      bid: "banner_2",
-      title: "GAGA Dance",
-      banner_url: sampleCover,
-      width: 720,
-      height: 360,
-      type: 1
-    }
-  ];
-
-  // Hot Song has items, My Favorites is explicitly empty []
-  const mcList = [
-    {
-      mc_info: {
-        mc_id: "1001",
-        mc_name: "Hot Song"
-      },
-      music_list: formattedTracks,
-      aweme_list: []
-    },
-    {
-      mc_info: {
-        mc_id: "1002",
-        mc_name: "My Favorites"
-      },
-      music_list: [],
-      aweme_list: []
-    }
-  ];
-
-  const categoryList = [
+  // Category Banner items (populates the 2 top boxes)
+  const categoryBanners = [
     {
       category_name: "Hot Song",
       category_id: "hot_song",
-      music_list: formattedTracks
+      cover: sampleCover,
+      music_list: formattedTrackList,
+      aweme_list: []
     },
     {
       category_name: "My Favorites",
       category_id: "favorites",
-      music_list: []
+      cover: sampleCover,
+      music_list: [],
+      aweme_list: []
     }
   ];
 
@@ -164,18 +125,25 @@ export default async (req) => {
     status_msg: "",
     has_more: 0,
     cursor: 0,
-    // Banner cards at top
-    banner_list: bannerList,
-    banner: bannerList,
-    // Root level lists
-    music_list: formattedTracks,
-    music: formattedTracks,
-    data: formattedTracks,
-    // Tabbed feeds (Hot Song populated, Favorites empty)
-    mc_list: mcList,
-    music_collection_list: mcList,
-    category_list: categoryList,
-    music_category_list: categoryList,
+    // Direct track feeds
+    music_list: formattedTrackList,
+    music: formattedTrackList,
+    data: formattedTrackList,
+    // Category & banner structures
+    category_list: categoryBanners,
+    music_category_list: categoryBanners,
+    mc_list: [
+      {
+        mc_info: { mc_id: "1001", mc_name: "Hot Song" },
+        music_list: formattedTrackList,
+        aweme_list: []
+      },
+      {
+        mc_info: { mc_id: "1002", mc_name: "My Favorites" },
+        music_list: [],
+        aweme_list: []
+      }
+    ],
     extra: {
       now: Math.floor(Date.now() / 1000),
       fatal_item_ids: []
@@ -185,7 +153,6 @@ export default async (req) => {
   return new Response(JSON.stringify(responseData), { status: 200, headers });
 };
 
-// Route matching for music & banner subpaths
 export const config = {
   path: [
     "/aweme/v1/music/*",
