@@ -1,3 +1,5 @@
+How do i also fix the zodiac sign
+Do it to this
 // netlify/edge-functions/profile-master.js
 
 export default async (req) => {
@@ -105,12 +107,9 @@ export default async (req) => {
       is_private: 0,
       allow_others_to_find_me: 1,
 
-      // --- DOUYIN NATIVE GENDER FIELDS ---
-      gender: 1, 
-      gender_str: "男",               // Chinese string for Male
-      gender_name: "男",
-
-      birthday: "2010-04-07",
+      // --- DEMOGRAPHICS & PROFILE PILLS ---
+      gender: 1, // 1 = Male
+      birthday: "2010-04-07", // Douyin parses this for Age & Zodiac (Aries)
       birthday_hide_level: 0,
       show_gender_strategy: 0,
       city: "Cairo",
@@ -119,26 +118,6 @@ export default async (req) => {
       location: "Cairo, Egypt",
       ip_location: "Egypt",
       hide_location: 0,
-
-      // --- DOUYIN NATIVE ASTROLOGY / CONSTELLATION FIELDS ---
-      astrology_zodiac: 1,             // 1 = Aries
-      zodiac_type: 1,
-      constellation: "白羊座",          // Aries in Chinese
-      zodiac: "白羊座",
-      zodiac_name: "白羊座",
-      star_sign: "白羊座",
-      
-      constellation_info: {
-        id: 1,
-        name: "白羊座",
-        english_name: "Aries"
-      },
-      
-      zodiac_info: {
-        zodiac_id: 1,
-        zodiac_name: "白羊座",
-        name: "白羊座"
-      },
 
       // --- PHONE & ACCOUNT BINDING FLAGS ---
       telephone: "+15550192831",
