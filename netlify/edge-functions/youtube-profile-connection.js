@@ -106,7 +106,8 @@ export default async (req) => {
       allow_others_to_find_me: 1,
 
       // --- DEMOGRAPHICS & PROFILE PILLS ---
-      gender: 1, // 1 = Male
+      gender: 2, // 2 = Male in legacy Douyin/Musical.ly schema
+      gender_name: "Male",
       birthday: "2010-04-07",
       birthday_hide_level: 0,
       show_gender_strategy: 0,
@@ -118,10 +119,10 @@ export default async (req) => {
       hide_location: 0,
 
       // --- ZODIAC / ASTROLOGY FIELDS ---
-      astrology_zodiac: 1,          // 1 = Aries in ByteDance schema
-      zodiac_sign: 1,              // Fallback for older client builds
-      constellation: "Aries",       // String fallback
-      zodiac: "Aries",             // String fallback
+      astrology_zodiac: 1,          // 1 = Aries
+      zodiac_sign: 1,
+      constellation: "Aries",
+      zodiac: "Aries",
 
       // --- PHONE & ACCOUNT BINDING FLAGS ---
       telephone: "+15550192831",
