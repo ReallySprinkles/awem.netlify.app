@@ -388,7 +388,7 @@ export default async (req) => {
     }
   ];
 
-  // Backup mock video payload for feed tabs
+  // Feed video item formatted with standard TikTok aweme schema
   const mockVideo = {
     aweme_id: "7100000000000000001",
     desc: "Friends feed video test 🚀",
@@ -403,25 +403,27 @@ export default async (req) => {
       cover: {
         url_list: ["https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png"]
       },
-      duration: 15000
+      duration: 15000,
+      width: 720,
+      height: 1280
     },
-    statistics: { digg_count: 99, comment_count: 12, share_count: 4, play_count: 500 }
+    statistics: { digg_count: 99, comment_count: 12, share_count: 4, play_count: 500 },
+    status: { allow_share: true, is_delete: false, is_private: false },
+    rate: 1
   };
 
   const responseData = {
     status_code: 0,
     status_msg: "success",
-    has_more: 0,
+    has_more: 1,
     cursor: Date.now(),
-    min_cursor: 0,
-    max_cursor: followerList.length,
+    min_cursor: Date.now() - 86400,
+    max_cursor: Date.now(),
     total: 4525, // Total count displayed in header
-    // Returns full array regardless of which user property the client queries
     followers: followerList,
     followings: followerList,
     friends: followerList,
     user_list: followerList,
-    // Video feed structure fallbacks
     aweme_list: [mockVideo],
     data: [mockVideo]
   };
@@ -439,7 +441,19 @@ export const config = {
     "/aweme/v2/user/follower/list/*",
     "/aweme/v2/user/follower/list",
     "/aweme/v1/user/following/list/*",
+    "/aweme/v1/user/following/list",
     "/aweme/v1/friend/list/*",
+    "/aweme/v1/friend/list",
+    "/aweme/v1/friend/feed/*",
+    "/aweme/v1/friend/feed",
+    "/aweme/v2/friend/feed/*",
+    "/aweme/v2/friend/feed",
+    "/aweme/v1/familiar/feed/*",
+    "/aweme/v1/familiar/feed",
+    "/aweme/v1/user/following/feed/*",
+    "/aweme/v1/user/following/feed",
+    "/aweme/v1/sidebar/feed/*",
+    "/aweme/v1/sidebar/feed",
     "/aweme/v1/social/*",
     "/aweme/v1/tab/feed/*",
     "/aweme/v2/tab/feed/*"
