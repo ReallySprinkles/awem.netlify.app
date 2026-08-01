@@ -89,6 +89,12 @@ export default async (req) => {
       youtube_channel_id: "UCC45pszowTR4u8OrY0HBYPA",
       youtube_channel_title: "sprinkles",
       ins_id: "iamreallysprinkles",
+      
+      // --- WEIBO FIELDS ---
+      weibo_name: "sprinkles.dude",
+      weibo_url: "https://weibo.com/u/7117828228",
+      weibo_schema: "sinaweibo://userinfo?uid=7117828228",
+      weibo_verify: "Verified Creator",
 
       // --- METRICS ---
       following_count: 1188,
