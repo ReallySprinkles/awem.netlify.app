@@ -90,11 +90,23 @@ export default async (req) => {
       youtube_channel_title: "sprinkles",
       ins_id: "iamreallysprinkles",
       
-      // --- WEIBO FIELDS ---
+      // --- WEIBO FIELDS (ALL VARIANTS) ---
       weibo_name: "sprinkles.dude",
+      weibo_id: "7117828228",
       weibo_url: "https://weibo.com/u/7117828228",
       weibo_schema: "sinaweibo://userinfo?uid=7117828228",
       weibo_verify: "Verified Creator",
+      is_bind_weibo: true,
+      has_bind_weibo: true,
+
+      // --- BIND INFO ARRAY (USED BY EDIT PROFILE SCREEN) ---
+      bind_info: [
+        {
+          platform: "weibo",
+          platform_id: "7117828228",
+          nickname: "sprinkles.dude"
+        }
+      ],
 
       // --- METRICS ---
       following_count: 1188,
@@ -118,8 +130,15 @@ export default async (req) => {
 export const config = {
   path: [
     "/aweme/v1/user/profile/self/*",
+    "/aweme/v1/user/profile/self",
+    "/aweme/v1/user/*",
     "/aweme/v1/user",
     "/aweme/v1/user/detail/*",
+    "/aweme/v1/user/detail",
+    "/aweme/v1/user/settings/*",
+    "/aweme/v1/user/settings",
+    "/aweme/v1/commit/user/*",
+    "/aweme/v1/commit/user",
     "/aweme/v1/social/bind/*",
     "/aweme/v1/qrcode/*",
     "/aweme/v1/user/qrcode/*"
