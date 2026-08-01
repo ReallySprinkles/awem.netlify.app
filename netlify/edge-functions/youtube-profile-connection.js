@@ -105,6 +105,18 @@ export default async (req) => {
       is_private: 0,
       allow_others_to_find_me: 1,
 
+      // --- DEMOGRAPHICS & PROFILE PILLS ---
+      gender: 1, // 1 = Male
+      birthday: "2009-04-07", // Douyin parses this for Age & Zodiac (Aries)
+      birthday_hide_level: 0,
+      show_gender_strategy: 0,
+      city: "Cairo",
+      country: "EG",
+      district: "",
+      location: "Cairo, Egypt",
+      ip_location: "Egypt",
+      hide_location: 0,
+
       // --- PHONE & ACCOUNT BINDING FLAGS ---
       telephone: "+15550192831",
       phone: "+15550192831",
