@@ -35,6 +35,8 @@ export default async (req) => {
     );
   }
 
+  const weiboHandle = "sprinkles.dude";
+
   // --- 2. PROFILE & USER PAYLOAD ---
   const userPayload = {
     status_code: 0,
@@ -90,21 +92,31 @@ export default async (req) => {
       youtube_channel_title: "sprinkles",
       ins_id: "iamreallysprinkles",
       
-      // --- WEIBO FIELDS (ALL VARIANTS) ---
-      weibo_name: "sprinkles.dude",
+      // --- WEIBO FIELDS (NUMERIC FLAGS & ALTERNATIVE KEYS) ---
+      weibo_name: weiboHandle,
+      weibo_nickname: weiboHandle,
+      weibo_account: weiboHandle,
       weibo_id: "7117828228",
       weibo_url: "https://weibo.com/u/7117828228",
       weibo_schema: "sinaweibo://userinfo?uid=7117828228",
       weibo_verify: "Verified Creator",
-      is_bind_weibo: true,
-      has_bind_weibo: true,
+      
+      // Integer flags (1 = enabled/bound, essential for Objective-C models)
+      is_bind_weibo: 1,
+      has_bind_weibo: 1,
+      weibo_status: 1,
+      sync_to_weibo: 1,
+      sync_to_weibo_stat: 1,
 
-      // --- BIND INFO ARRAY (USED BY EDIT PROFILE SCREEN) ---
+      // --- BIND INFO ARRAY ---
       bind_info: [
         {
           platform: "weibo",
           platform_id: "7117828228",
-          nickname: "sprinkles.dude"
+          nickname: weiboHandle,
+          weibo_name: weiboHandle,
+          is_bind: true,
+          bound: true
         }
       ],
 
@@ -129,6 +141,7 @@ export default async (req) => {
 
 export const config = {
   path: [
+    // v1 endpoints
     "/aweme/v1/user/profile/self/*",
     "/aweme/v1/user/profile/self",
     "/aweme/v1/user/*",
@@ -141,6 +154,14 @@ export const config = {
     "/aweme/v1/commit/user",
     "/aweme/v1/social/bind/*",
     "/aweme/v1/qrcode/*",
-    "/aweme/v1/user/qrcode/*"
+    "/aweme/v1/user/qrcode/*",
+
+    // v2 endpoints
+    "/aweme/v2/user/profile/self/*",
+    "/aweme/v2/user/profile/self",
+    "/aweme/v2/user/detail/*",
+    "/aweme/v2/user/detail",
+    "/aweme/v2/user/*",
+    "/aweme/v2/user"
   ]
 };
