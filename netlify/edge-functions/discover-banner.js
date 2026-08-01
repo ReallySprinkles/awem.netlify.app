@@ -13,7 +13,7 @@ export default async (req) => {
   }
 
   // Direct image URL for your banner (use a 2:1 aspect ratio like 1080x540 for best fit)
-  const bannerImageUrl = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png";
+  const bannerImageUrl = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_3854.jpeg";
 
   const bannerPayload = {
     status_code: 0,
