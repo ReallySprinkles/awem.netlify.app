@@ -3,6 +3,7 @@
 /aweme/v1/comment/list/*        /aweme/v1/comment/list/index.html    200
 /aweme/v2/comment/list/*        /aweme/v2/comment/list/index.html    200
 
+/passport/user/check_session/*   /verify.html   200!
 
 /aweme/v1/user/*          /aweme/v1/user   200
 
