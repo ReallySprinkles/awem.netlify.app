@@ -102,8 +102,24 @@ export default async (req) => {
       unique_id: "sprinkles.dude",
       signature: "I'm really sprinkles 🤯\nEgyptian 🇪🇬\n(NOT A TECHTOKER!)\nDiscord username: reallysprinkles\nDISCORD SERVER HERE 👇\nhttps://discord.gg/Ta8ZtP4sCf",
       secret: 0,
-      is_private: 0,
+      is_private: false,
       allow_others_to_find_me: 1,
+
+      // 🔑 CRITICAL INTERACTION & PRIVACY FLAGS (Bypasses React privacy error)
+      comment_setting: 0,             // 0 = Everyone
+      duet_setting: 0,                // 0 = Everyone
+      react_setting: 0,               // 0 = Everyone can react
+      stitch_setting: 0,              // 0 = Everyone
+      download_setting: 0,            // 0 = Allow video downloads
+      download_prompt_until: 0,
+      
+      // 🔑 RELATIONSHIP & DISCIPLINE FLAGS
+      follow_status: 2,               // 2 = Mutual follow / Friends
+      follower_status: 2,
+      is_following: true,
+      is_followed: true,
+      is_star: false,
+      is_discipline_member: false,
 
       // --- DEMOGRAPHICS & PROFILE PILLS ---
       gender: 2, // 1 = Male
@@ -182,6 +198,7 @@ export const config = {
   path: [
     "/aweme/v1/user/profile/self/*",
     "/aweme/v1/user",
+    "/aweme/v1/user/*",
     "/aweme/v1/user/detail/*",
     "/aweme/v1/user/follower/list/*",
     "/aweme/v1/user/follower/list",
