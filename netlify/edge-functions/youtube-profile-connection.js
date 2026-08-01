@@ -107,7 +107,7 @@ export default async (req) => {
 
       // --- DEMOGRAPHICS & PROFILE PILLS ---
       gender: 1, // 1 = Male
-      birthday: "2010-04-07", // Douyin parses this for Age & Zodiac (Aries)
+      birthday: "2010-04-07",
       birthday_hide_level: 0,
       show_gender_strategy: 0,
       city: "Cairo",
@@ -116,6 +116,12 @@ export default async (req) => {
       location: "Cairo, Egypt",
       ip_location: "Egypt",
       hide_location: 0,
+
+      // --- ZODIAC / ASTROLOGY FIELDS ---
+      astrology_zodiac: 1,          // 1 = Aries in ByteDance schema
+      zodiac_sign: 1,              // Fallback for older client builds
+      constellation: "Aries",       // String fallback
+      zodiac: "Aries",             // String fallback
 
       // --- PHONE & ACCOUNT BINDING FLAGS ---
       telephone: "+15550192831",
