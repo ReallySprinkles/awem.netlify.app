@@ -1,0 +1,97 @@
+// netlify/edge-functions/music-aweme-handler.js
+
+export default async (req) => {
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-SS-REQ-TICK",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Content-Type": "application/json; charset=utf-8"
+  };
+
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 200, headers });
+  }
+
+  // Cover thumbnail image for sound grid rendering
+  const defaultCoverUrl = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_4234.png";
+
+  const musicAwemePayload = {
+    status_code: 0,
+    cursor: 0,
+    has_more: 0,
+    aweme_list: [
+      {
+        "aweme_id": "1000000005",
+        "desc": "#fyp #funny #xycba #hamjimenoippo #cashapp",
+        "author": {
+          "uid": "12345",
+          "nickname": "drtenmalonglost3rdson",
+          "unique_id": "drtenmalonglost3rdson",
+          "avatar_thumb": {
+            "url_list": [
+              "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/89e189f03cef0022a8460c231228f885~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=269c71b0&x-expires=1785531600&x-signature=4if9r4QSQfDJoMY4wEOVdmrZGh4%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=sg1"
+            ]
+          }
+        },
+        "music": {
+          "id": "7000000000000000001",
+          "title": "Contains: Packrunner Bitch",
+          "author": "Konygebony",
+          "play_url": {
+            "url_list": [
+              "https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v1c044g50000d9f5pu7og65j257oon60.mp3"
+            ]
+          }
+        },
+        "video": {
+          "play_addr": {
+            "url_list": [
+              "https://github.com/ReallySprinkles/random-ahh-stuff-lol/raw/refs/heads/main/v12044gd0000d9m5d9nog65h8f76vsf0.mp4"
+            ]
+          },
+          // 🔑 Cover images required by client to render thumbnail grid
+          "cover": {
+            "url_list": [defaultCoverUrl]
+          },
+          "origin_cover": {
+            "url_list": [defaultCoverUrl]
+          },
+          "dynamic_cover": {
+            "url_list": [defaultCoverUrl]
+          },
+          "width": 720,
+          "height": 1280
+        },
+        "statistics": {
+          "digg_count": 106612,
+          "comment_count": 635,
+          "share_count": 6349
+        },
+        "status": {
+          "comment_status": 0,
+          "allow_comment": true,
+          "private_status": 0
+        },
+        "share_info": {
+          "share_url": "https://example.com",
+          "share_title": "hi",
+          "share_desc": "Check out this video!"
+        }
+      }
+    ]
+  };
+
+  return new Response(JSON.stringify(musicAwemePayload), {
+    status: 200,
+    headers
+  });
+};
+
+export const config = {
+  path: [
+    "/aweme/v1/music/aweme/*",
+    "/aweme/v1/music/aweme",
+    "/aweme/v4/music/aweme/*",
+    "/aweme/v4/music/aweme"
+  ]
+};
