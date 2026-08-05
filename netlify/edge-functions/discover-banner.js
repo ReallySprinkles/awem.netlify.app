@@ -20,13 +20,13 @@ export default async (req) => {
     banner: [
       {
         bid: "1001",
-        title: "hi",
+        title: "sprinkles",
         banner_url: {
           uri: "banner/1001.png",
           url_list: [bannerImageUrl]
         },
         // Direct link or in-app schema when tapped (optional)
-        schema: "https://discord.gg/Ta8ZtP4sCf",
+        schema: "https://tiktok.com/@sprinkles.dude",
         width: 1080,
         height: 540
       }
