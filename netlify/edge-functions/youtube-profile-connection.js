@@ -17,8 +17,27 @@ export default async (req) => {
   const profileUrl = `https://musically.com/h5/share/usr/7117828228`;
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(profileUrl)}`;
 
-  // --- RAW GITHUB PFP LINK ---
+  // --- RAW GITHUB PFP LINKS & AVATAR HELPER ---
   const myPfpUrl = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png";
+  const defaultPfpUrl = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_3824.jpeg";
+  const chuckyPfpUrl = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_4238.jpeg";
+
+  const makeAvatarObj = (imgUrl) => ({
+    uri: imgUrl,
+    url_list: [imgUrl, imgUrl],
+    width: 720,
+    height: 720
+  });
+
+  // --- AUTHOR MAP FOR EXTERNAL PROFILE LOOKUPS ---
+  const authorRegistry = {
+    "7000000001": { nickname: "bloxyz wiedlak kasefar", unique_id: "bloxyz.wiedlak.kasefar", avatar: defaultPfpUrl },
+    "7000000002": { nickname: "Gojo lover", unique_id: "gojo.lover676", avatar: defaultPfpUrl },
+    "7000000003": { nickname: "💲", unique_id: "unknownscarface1", avatar: defaultPfpUrl },
+    "7000000004": { nickname: "𝘿𝙮𝙡𝙖𝙣𝙖𝙣𝙏𝙚𝙘𝙝", unique_id: "dylbanantech", avatar: defaultPfpUrl },
+    "7000000005": { nickname: "drtenmalonglost3rdson", unique_id: "drtenmalonglost3rdson", avatar: chuckyPfpUrl },
+    "7000000006": { nickname: "sprinkles", unique_id: "sprinkles.dude", avatar: defaultPfpUrl }
+  };
 
   // --- 1. DEDICATED FOLLOWER LIST ENDPOINT ---
   if (url.pathname.includes("/follower/list")) {
@@ -39,7 +58,7 @@ export default async (req) => {
       { uid: "10014", nickname: "😈KING👑CELÉBRE👑أسا...", unique_id: "king.celbre2", follow_status: 0 },
       { uid: "10015", nickname: "._.Alphalpha", unique_id: "._.alphalpha", follow_status: 0 },
       { uid: "10016", nickname: "L30❤️(still a gd_ranzy fan...", unique_id: "leooooooooooooooooooooo0oo", follow_status: 0 },
-      { uid: "10017", nickname: "ღ•", unique_id: "5huukyo", follow_status: 2 }, // Friends
+      { uid: "10017", nickname: "ღ•", unique_id: "5huukyo", follow_status: 2 },
       { uid: "10018", nickname: "tuffboi438", unique_id: "tuffboi438", follow_status: 0 },
       { uid: "10019", nickname: "Edgar Munguía", unique_id: "edgarmungua3", follow_status: 0 },
       { uid: "10020", nickname: "Credxl", unique_id: "cooldhiaaboy478", follow_status: 0 },
@@ -52,7 +71,7 @@ export default async (req) => {
       { uid: "10027", nickname: "༄✦𝖍𝖞𝖉𝖗𝕬_𝕾𝖈𝖗𝖎𝖕𝖙𝖘✦☙", unique_id: "hydraduels", follow_status: 0 },
       { uid: "10028", nickname: "💤💤💤", unique_id: "tothespiderman12", follow_status: 0 },
       { uid: "10029", nickname: "Skate2fan", unique_id: "skate3fan2ndacc", follow_status: 0 },
-      { uid: "10030", nickname: "🦕", unique_id: ".halrry", follow_status: 2 }, // Friends
+      { uid: "10030", nickname: "🦕", unique_id: ".halrry", follow_status: 2 },
       { uid: "10031", nickname: "amirokay_", unique_id: "amirokay_", follow_status: 0 },
       { uid: "10032", nickname: "cat nior", unique_id: "cat.nior06", follow_status: 0 },
       { uid: "10033", nickname: "paologamer20122", unique_id: "paologamer20122", follow_status: 0 },
@@ -92,7 +111,75 @@ export default async (req) => {
     );
   }
 
-  // --- 3. PROFILE & USER PAYLOAD ---
+  // --- EXTRACT TARGET USER ID FOR ROUTING ---
+  let targetUid = url.searchParams.get("user_id") || url.searchParams.get("sec_user_id");
+  const pathParts = url.pathname.split("/").filter(Boolean);
+  const lastPart = pathParts[pathParts.length - 1];
+  if (!targetUid && lastPart && !isNaN(lastPart)) {
+    targetUid = lastPart;
+  }
+
+  if (!targetUid && req.method === "POST") {
+    try {
+      const clonedReq = req.clone();
+      const bodyText = await clonedReq.text();
+      const bodyParams = new URLSearchParams(bodyText);
+      targetUid = bodyParams.get("user_id") || bodyParams.get("sec_user_id");
+    } catch (e) {
+      // Ignore parse failure
+    }
+  }
+
+  // --- 3. OTHER USER PROFILE LOOKUP ROUTING ---
+  if (url.pathname.includes("/profile/other") || (targetUid && targetUid !== "7117828228")) {
+    const authorData = authorRegistry[targetUid] || authorRegistry["7000000006"];
+    const otherAvatarObj = makeAvatarObj(authorData.avatar);
+
+    return new Response(
+      JSON.stringify({
+        status_code: 0,
+        user: {
+          uid: targetUid || "7000000006",
+          short_id: targetUid || "7000000006",
+          nickname: authorData.nickname,
+          unique_id: authorData.unique_id,
+          signature: "",
+          secret: 0,
+          is_private: false,
+          allow_others_to_find_me: 1,
+
+          comment_setting: 0,
+          duet_setting: 0,
+          react_setting: 0,
+          stitch_setting: 0,
+          download_setting: 0,
+
+          follow_status: 0,
+          follower_status: 0,
+          is_following: false,
+          is_followed: false,
+
+          avatar_thumb: otherAvatarObj,
+          avatar_medium: otherAvatarObj,
+          avatar_larger: otherAvatarObj,
+          avatar_168x168: otherAvatarObj,
+          avatar_300x300: otherAvatarObj,
+
+          following_count: 1000,
+          follower_count: 1001,
+          total_favorited: 0,
+          aweme_count: 0,
+          favoriting_count: 0
+        },
+        extra: { now: Date.now(), logid: "other_user_profile" }
+      }),
+      { status: 200, headers }
+    );
+  }
+
+  // --- 4. MY SELF PROFILE & USER PAYLOAD ---
+  const myAvatarObj = makeAvatarObj(myPfpUrl);
+
   const userPayload = {
     status_code: 0,
     user: {
@@ -105,16 +192,16 @@ export default async (req) => {
       is_private: false,
       allow_others_to_find_me: 1,
 
-      // 🔑 CRITICAL INTERACTION & PRIVACY FLAGS (Bypasses React privacy error)
-      comment_setting: 0,             // 0 = Everyone
-      duet_setting: 0,                // 0 = Everyone
-      react_setting: 0,               // 0 = Everyone can react
-      stitch_setting: 0,              // 0 = Everyone
-      download_setting: 0,            // 0 = Allow video downloads
+      // 🔑 CRITICAL INTERACTION & PRIVACY FLAGS
+      comment_setting: 0,
+      duet_setting: 0,
+      react_setting: 0,
+      stitch_setting: 0,
+      download_setting: 0,
       download_prompt_until: 0,
-      
+
       // 🔑 RELATIONSHIP & DISCIPLINE FLAGS
-      follow_status: 2,               // 2 = Mutual follow / Friends
+      follow_status: 2,
       follower_status: 2,
       is_following: true,
       is_followed: true,
@@ -122,8 +209,8 @@ export default async (req) => {
       is_discipline_member: false,
 
       // --- DEMOGRAPHICS & PROFILE PILLS ---
-      gender: 2, // 1 = Male
-      birthday: "2010-04-07", // Douyin parses this for Age & Zodiac (Aries)
+      gender: 2,
+      birthday: "2010-04-07",
       birthday_hide_level: 0,
       show_gender_strategy: 0,
       city: "Cairo",
@@ -143,26 +230,11 @@ export default async (req) => {
       has_email: true,
 
       // --- ALL AVATAR VARIANTS ---
-      avatar_thumb: {
-        uri: "musically-maliva-obj/sprinkles_avatar.jpeg",
-        url_list: [myPfpUrl]
-      },
-      avatar_medium: {
-        uri: "musically-maliva-obj/sprinkles_avatar.jpeg",
-        url_list: [myPfpUrl]
-      },
-      avatar_larger: {
-        uri: "musically-maliva-obj/sprinkles_avatar.jpeg",
-        url_list: [myPfpUrl]
-      },
-      avatar_168x168: {
-        uri: "musically-maliva-obj/sprinkles_avatar.jpeg",
-        url_list: [myPfpUrl]
-      },
-      avatar_300x300: {
-        uri: "musically-maliva-obj/sprinkles_avatar.jpeg",
-        url_list: [myPfpUrl]
-      },
+      avatar_thumb: myAvatarObj,
+      avatar_medium: myAvatarObj,
+      avatar_larger: myAvatarObj,
+      avatar_168x168: myAvatarObj,
+      avatar_300x300: myAvatarObj,
 
       // --- QR CODE ---
       qrcode_url: {
@@ -197,6 +269,8 @@ export default async (req) => {
 export const config = {
   path: [
     "/aweme/v1/user/profile/self/*",
+    "/aweme/v1/user/profile/other/*",
+    "/aweme/v1/user/profile/other",
     "/aweme/v1/user",
     "/aweme/v1/user/*",
     "/aweme/v1/user/detail/*",
