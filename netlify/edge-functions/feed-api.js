@@ -14,8 +14,12 @@ export default async (req) => {
 
   // Helper function to inject full avatar and music cover objects
   const formatAweme = (item) => {
-    const defaultPic = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png";
-    const authorPic = item.author?.avatar_thumb?.url_list?.[0] || defaultPic;
+    const finnPic = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png";
+    const defaultPic = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_3824.jpeg";
+
+    // 🔑 Override avatar to Finn the Human if unique_id is sprinkles.dude
+    const isSprinkles = item.author?.unique_id === "sprinkles.dude";
+    const authorPic = isSprinkles ? finnPic : (item.author?.avatar_thumb?.url_list?.[0] || defaultPic);
 
     return {
       ...item,
