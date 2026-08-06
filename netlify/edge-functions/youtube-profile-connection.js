@@ -36,7 +36,7 @@ export default async (req) => {
     "7000000003": { nickname: "💲", unique_id: "unknownscarface1", avatar: defaultPfpUrl },
     "7000000004": { nickname: "𝘿𝙮𝙡𝙖𝙣𝙖𝙣𝙏𝙚𝙘𝙝", unique_id: "dylbanantech", avatar: defaultPfpUrl },
     "7000000005": { nickname: "drtenmalonglost3rdson", unique_id: "drtenmalonglost3rdson", avatar: chuckyPfpUrl },
-    "7000000006": { nickname: "sprinkles", unique_id: "sprinkles.dude", avatar: defaultPfpUrl }
+    "7000000006": { nickname: "sprinkles", unique_id: "sprinkles.dude", avatar: myPfpUrl }
   };
 
   // --- 1. DEDICATED FOLLOWER LIST ENDPOINT ---
