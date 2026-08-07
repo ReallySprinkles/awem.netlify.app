@@ -12,7 +12,7 @@ export default async (req) => {
     return new Response(null, { status: 200, headers });
   }
 
-  // Helper function to inject full avatar and music cover objects
+  // Helper function to inject full avatar, music cover objects, and approved review/share status
   const formatAweme = (item) => {
     const finnPic = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/finn_the_human_pfp_.png";
     const defaultPic = "https://raw.githubusercontent.com/ReallySprinkles/random-ahh-stuff-lol/refs/heads/main/IMG_3824.jpeg";
@@ -23,6 +23,9 @@ export default async (req) => {
 
     return {
       ...item,
+      // 🔑 Root status overrides for legacy clients
+      review_status: 0,
+      is_pgcshow: false,
       author: {
         ...item.author,
         avatar_thumb: { url_list: [authorPic] },
@@ -38,6 +41,17 @@ export default async (req) => {
         cover_medium: { url_list: [authorPic] },
         cover_large: { url_list: [authorPic] },
         cover_hd: { url_list: [authorPic] }
+      },
+      status: {
+        ...item.status,
+        allow_comment: true,
+        comment_status: 0,
+        private_status: 0,
+        allow_share: true,     // 🔑 Explicitly enables sharing sheet options
+        review_status: 0,      // 🔑 0 = Passed Review (bypasses "video is under review" lock)
+        download_status: 0,
+        is_delete: false,
+        is_prohibited: false
       }
     };
   };
@@ -466,7 +480,7 @@ export default async (req) => {
     }
   ];
 
-  // Map avatar and music image keys onto all items
+  // Map avatars, covers, and review status onto all items
   const formattedAwemeList = rawAwemeList.map(formatAweme);
 
   // --- RANDOMIZE ARRAY (Fisher-Yates Shuffle) ---
